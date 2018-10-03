@@ -22,7 +22,11 @@ rust:
   - stable
   # and the first stable one (this should be bumped as the minimum
   # Rust version required changes)
-  - 1.29.0
+  - 1.29.1
+
+matrix:
+  allow_failures:
+  - rust: nightly
 
 before_script:
   - rustup component add rustfmt-preview
@@ -33,7 +37,6 @@ before_script:
 
 script:
   - cargo fmt -- --check
-  - cargo clippy
   - cargo clippy -- -D warnings
   - cargo build --verbose
   - cargo test --verbose

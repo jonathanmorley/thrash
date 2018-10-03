@@ -2,7 +2,7 @@ use client::Client;
 use failure::Error;
 use project::ProjectRef;
 use std::fmt;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
