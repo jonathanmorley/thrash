@@ -57,7 +57,7 @@ impl Client {
         Ok(self
             .get_paged::<String>(&url)?
             .into_iter()
-            .map(|p| PathBuf::from(p))
+            .map(PathBuf::from)
             .collect())
     }
 
