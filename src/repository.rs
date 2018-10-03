@@ -2,7 +2,7 @@ use client::Client;
 use failure::Error;
 use project::ProjectRef;
 use std::fmt;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -57,7 +57,7 @@ impl Client {
         Ok(self
             .get_paged::<String>(&url)?
             .into_iter()
-            .map(|p| PathBuf::from(p))
+            .map(PathBuf::from)
             .collect())
     }
 

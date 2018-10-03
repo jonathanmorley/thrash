@@ -1,14 +1,52 @@
+sudo: required
 language: rust
+cache: cargo
 
+# Dependencies of kcov, used by coverage
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - binutils-dev
+      - cmake # also required for cargo-update
+    sources:
+      - kalakris-cmake
+
+# run builds for all the trains (and more)
 rust:
-  - stable
-  - beta
   - nightly
+  - beta
+  # check it compiles on the latest stable compiler
+  - stable
+  # and the first stable one (this should be bumped as the minimum
+  # Rust version required changes)
+  - 1.29.1
 
-script: |
-  cargo build --verbose &&
-  cargo test  --verbose &&
-  cargo doc   --verbose
+matrix:
+  allow_failures:
+  - rust: nightly
+
+before_script:
+  - rustup component add rustfmt-preview
+  - rustup component add clippy-preview
+  - cargo install cargo-update || echo "cargo-update already installed"
+  - cargo install cargo-travis || echo "cargo-travis already installed"
+  - cargo install-update -a # update outdated cached binaries
+
+script:
+  - cargo fmt -- --check
+  - cargo clippy -- -D warnings
+  - cargo build --verbose
+  - cargo test --verbose
+  - cargo doc --verbose
+
+after_success:
+  # measure code coverage and upload to coveralls.io
+  - cargo coveralls
+  # upload documentation to github.io (gh-pages branch)
+  - cargo doc-upload
 
 branches:
   only:
