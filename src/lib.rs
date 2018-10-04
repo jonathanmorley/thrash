@@ -1,5 +1,3 @@
-#![warn(unused)]
-
 extern crate cached;
 #[macro_use]
 extern crate failure;
