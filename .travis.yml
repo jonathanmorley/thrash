@@ -2,11 +2,6 @@ sudo: required
 language: rust
 cache: cargo
 
-env:
-  global:
-    # GH_TOKEN
-    - secure: "Dc7XiUEA46QnxKcnM/Y+xRD3QtuHeyDtIFcWZUfj8OTD3PbI/i7qu90RmdWndUcM0SHQUYU/3zRTFVENJuTy7HnbMtQ0dr852fIfrgodGfYoxIU0TI/9KdERo3px7ukgFjur+1/sTRuJWnJ8oe4wVHBAu3KafG6XyFxeBYixXVFb4wla8v2Y9IXTGxik03z1IsrstIU/oELZhnBNSZN/mQHUcGZFpOHEu2f26O0Dl6OlM6qnMIsJGGRO7qKDznko5W7D6xnyaaFnjz20nRf1eM9LDz/9VSAPIzyD4N/w1ahOHjrFlk4E1SSFFnhR/t0zuQaGfcacCk7LxqpKOETjDdSUa1pQuePHst1qbw3AudwmNFurmJ7n52DrEo0bf2q9RTPi1OLG6/TCLfqIx9IHAGxdLDOtsQWMLdQX6P0YNgvcBlqyTXh2SgbZdGOcArGYmdMOovZAV5MZ+KvRuJRZ99QeMKv6kIeqdJSm88Eqo4OX77eM2hmcMDdF6tjMufXsEPjAku7xSUPp/U/34iVnRiXmZplgvR/R4BeqcZrMlORYyozPE63mUjjMOLnM9EDqxmbRmSDKUpRwaZzck+AciInvM3adiiJ38x3N0p6z0mUWXvQztjWYe7f64xRF2cniM3QDFthmJR04N7sWHHQSBC5hgjHtcxWhSlcfeFZeNxk="
-
 addons:
   apt:
     packages:
@@ -32,8 +27,9 @@ rust:
   - 1.29.1
 
 matrix:
+  fast_finish: true
   allow_failures:
-  - rust: nightly
+    - rust: nightly
 
 before_script:
   - rustup component add rustfmt-preview
