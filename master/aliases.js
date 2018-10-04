@@ -85,6 +85,7 @@ ALIASES['synstructure'] = {};
 ALIASES['thrash'] = {};
 ALIASES['thrash'] = {};
 ALIASES['thrash'] = {};
+ALIASES['thrash'] = {};
 ALIASES['time'] = {};
 ALIASES['tokio'] = {};
 ALIASES['tokio_codec'] = {};
