@@ -1,6 +1,6 @@
-extern crate bitbucket;
 extern crate failure;
 extern crate mockito;
+extern crate thrash;
 
 use failure::Error;
 use mockito::{mock, Matcher};
@@ -35,7 +35,7 @@ fn group_access() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.group_access()?.len(), 2);
 
@@ -72,7 +72,7 @@ fn project_group_access() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project_group_access("FOO")?.len(), 2);
 
@@ -111,7 +111,7 @@ fn repository_group_access() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(
         client.repository_group_access("FOO", "foo-repo-1")?.len(),
@@ -159,7 +159,7 @@ fn project_user_access() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project_user_access("FOO")?.len(), 1);
 
@@ -206,7 +206,7 @@ fn repository_user_access() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.repository_user_access("FOO", "foo-repo-1")?.len(), 1);
 
