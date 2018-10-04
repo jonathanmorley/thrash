@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["GlobalPermission",""],["ProjectPermission",""],["RepositoryPermission",""]],"struct":[["PermissionStatus",""]]});

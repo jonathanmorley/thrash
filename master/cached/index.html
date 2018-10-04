@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cached` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cached"><title>cached - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Crate cached</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cached', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>cached</a></span><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cached/lib.rs.html#1-135' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>A macro for defining cached/memoized functions that wrap a static-ref cache object.</p>
+<p><strong>Note:</strong> Due to the requirements of storing arguments and return values in a global cache,
+function arguments and return types must be owned, function arguments must implement <code>Hash + Eq + Clone</code>,
+and function return types must implement <code>Clone</code>.
+Arguments and return values will be cloned in the process of insertion and retrieval.
+<code>cached!</code> functions should not be used to produce side-effectual results!</p>
+<h1 id="usage--options" class="section-header"><a href="#usage--options">Usage &amp; Options:</a></h1>
+<p>There's several options depending on how explicit you want to be. See below for full syntax breakdown.</p>
+<p>1.) Use an explicitly specified cache-type and provide the instantiated cache struct.
+For example, a <code>SizedCache</code> (LRU).</p>
+
+<pre class="rust rust-example-rendered">
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cached</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
+
+<span class="kw">use</span> <span class="ident">cached</span>::<span class="ident">SizedCache</span>;
+
+<span class="macro">cached</span><span class="macro">!</span>{<span class="ident">FIB</span>: <span class="ident">SizedCache</span> <span class="op">=</span> <span class="ident">SizedCache</span>::<span class="ident">with_capacity</span>(<span class="number">50</span>); <span class="op">&gt;&gt;</span>
+<span class="kw">fn</span> <span class="ident">fib</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> <span class="op">=</span> {
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">1</span> { <span class="kw">return</span> <span class="ident">n</span> }
+    <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">1</span>) <span class="op">+</span> <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">2</span>)
+}}</pre>
+<p>2.) Use an explicitly specified cache-type, but let the macro instantiate it.
+The cache-type is expected to have a <code>new</code> method that takes no arguments.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cached</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
+
+<span class="kw">use</span> <span class="ident">cached</span>::<span class="ident">UnboundCache</span>;
+
+<span class="macro">cached</span><span class="macro">!</span>{<span class="ident">FIB</span>: <span class="ident">UnboundCache</span> <span class="op">&gt;&gt;</span>
+<span class="kw">fn</span> <span class="ident">fib</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> <span class="op">=</span> {
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">1</span> { <span class="kw">return</span> <span class="ident">n</span> }
+    <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">1</span>) <span class="op">+</span> <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">2</span>)
+}}</pre>
+<p>3.) Use the default unbounded cache.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cached</span>;
+<span class="attribute">#[<span class="ident">macro_use</span>]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
+
+<span class="macro">cached</span><span class="macro">!</span>{<span class="ident">FIB</span> <span class="op">&gt;&gt;</span>
+<span class="kw">fn</span> <span class="ident">fib</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> <span class="op">=</span> {
+    <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">1</span> { <span class="kw">return</span> <span class="ident">n</span> }
+    <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">1</span>) <span class="op">+</span> <span class="ident">fib</span>(<span class="ident">n</span><span class="op">-</span><span class="number">2</span>)
+}}</pre>
+<h1 id="cache-types" class="section-header"><a href="#cache-types">Cache Types</a></h1>
+<p>Several caches are available in this crate:</p>
+<ul>
+<li><code>cached::UnboundCache</code></li>
+<li><code>cached::SizedCache</code></li>
+<li><code>cached::TimedCache</code></li>
+</ul>
+<p>Any custom cache that implements <code>cached::Cached</code> can be used in place of the built-ins.</p>
+<h1 id="syntax" class="section-header"><a href="#syntax">Syntax:</a></h1>
+<p>The complete macro syntax is:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="macro">cached</span><span class="macro">!</span>{<span class="ident">CACHE_NAME</span>: <span class="ident">CacheType</span> <span class="op">=</span> <span class="ident">CacheType</span>::<span class="ident">constructor</span>(<span class="ident">arg</span>); <span class="op">&gt;&gt;</span>
+<span class="kw">fn</span> <span class="ident">func_name</span>(<span class="ident">arg1</span>: <span class="ident">arg_type</span>, <span class="ident">arg2</span>: <span class="ident">arg_type</span>) <span class="op">-&gt;</span> <span class="ident">return_type</span> <span class="op">=</span> {
+    <span class="comment">// do stuff like normal</span>
+    <span class="ident">return_type</span>
+}}</pre>
+<p>Where:</p>
+<ul>
+<li><code>CACHE_NAME</code> is the unique name used to hold a <code>static ref</code> to the cache</li>
+<li><code>CacheType</code> is the struct type to use for the cache (Note, this cannot be namespaced, e.g.
+<code>cached::SizedCache</code> will not be accepted by the macro. <code>SizedCache</code> must be imported and passed
+directly)</li>
+<li><code>CacheType::constructor(arg)</code> is any expression that yields an instance of <code>CacheType</code> to be used
+as the cache-store, followed by <code>; &gt;&gt;</code></li>
+<li><code>fn func_name(arg1: arg_type) -&gt; return_type</code> is the same form as a regular function signature, with the exception
+that functions with no return value must be explicitly stated (e.g. <code>fn func_name(arg: arg_type) -&gt; ()</code>)</li>
+<li>The expression following <code>=</code> is the function body assigned to <code>func_name</code>. Note, the function
+body can make recursive calls to its cached-self (<code>func_name</code>).</li>
+</ul>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use <a class="mod" href="../cached/stores/index.html" title="mod cached::stores">stores</a>::*;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="macros/index.html"
+                                  title='mod cached::macros'>macros</a></td>
+                           <td class='docblock-short'>
+                                <p>Macro for defining functions that wrap a static-ref cache object.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="stores/index.html"
+                                  title='mod cached::stores'>stores</a></td>
+                           <td class='docblock-short'>
+                                <p>Implementation of various caches</p>
+
+                           </td>
+                       </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.cached.html"
+                                  title='macro cached::cached'>cached</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Cached.html"
+                                  title='trait cached::Cached'>Cached</a></td>
+                           <td class='docblock-short'>
+                                <p>Cache operations</p>
+
+                           </td>
+                       </tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../";window.currentCrate = "cached";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
