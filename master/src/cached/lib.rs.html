@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/cached-0.4.4/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/cached-0.6.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -135,42 +135,262 @@
 <span id="135">135</span>
 <span id="136">136</span>
 <span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
 </pre><pre class="rust ">
 <span class="doccomment">/*!
-A macro for defining cached/memoized functions that wrap a static-ref cache object.
+[![Build Status](https://travis-ci.org/jaemk/cached.svg?branch=master)](https://travis-ci.org/jaemk/cached)
+[![crates.io](https://img.shields.io/crates/v/cached.svg)](https://crates.io/crates/cached)
+[![docs](https://docs.rs/cached/badge.svg)](https://docs.rs/cached)
 
-**Note:** Due to the requirements of storing arguments and return values in a global cache,
-function arguments and return types must be owned, function arguments must implement `Hash + Eq + Clone`,
-and function return types must implement `Clone`.
-Arguments and return values will be cloned in the process of insertion and retrieval.
-`cached!` functions should not be used to produce side-effectual results!
+&gt; Caching structures and simplified function memoization
 
-# Usage &amp; Options:
+`cached` provides implementations of several caching structures as well as a handy macro
+for defining memoized functions.
 
-There&#39;s several options depending on how explicit you want to be. See below for full syntax breakdown.
+Memoized functions defined using `cached!` macros are thread-safe with the backing function-cache wrapped in mutex.
+The function-cache is **not** locked for the duration of the function&#39;s execution, so initial (on an empty cache)
+concurrent calls of long-running functions with the same arguments will each execute fully and each overwrite
+the memoized value as they complete. This mirrors the behavior of Python&#39;s `functools.lru_cache`.
 
-1.) Use an explicitly specified cache-type and provide the instantiated cache struct.
-    For example, a `SizedCache` (LRU).
+See [`cached::stores` docs](https://docs.rs/cached/latest/cached/stores/index.html) for details about the
+cache stores available.
+
+## Defining memoized functions using `cached!`
+
+`cached!` defined functions will have their results cached using the function&#39;s arguments as a key
+(or a specific expression when using `cached_key!`).
+When a `cached!` defined function is called, the function&#39;s cache is first checked for an already
+computed (and still valid) value before evaluating the function body.
+
+Due to the requirements of storing arguments and return values in a global cache:
+
+- Function return types must be owned and implement `Clone`
+- Function arguments must either be owned and implement `Hash + Eq + Clone` OR the `cached_key!`
+  macro must be used to convert arguments into an owned + `Hash + Eq + Clone` type.
+- Arguments and return values will be `cloned` in the process of insertion and retrieval.
+- `cached!` functions should not be used to produce side-effectual results!
+
+**NOTE**: Any custom cache that implements `cached::Cached` can be used with the `cached` macros in place of the built-ins.
+
+See [`examples`](https://github.com/jaemk/cached/tree/master/examples) for basic usage and
+an example of implementing a custom cache-store.
+
+
+### `cached!` and `cached_key!` Usage &amp; Options:
+
+There are several options depending on how explicit you want to be. See below for a full syntax breakdown.
+
+
+1.) Using the shorthand will use an unbounded cache.
 
 
 ```rust,no_run
 #[macro_use] extern crate cached;
 #[macro_use] extern crate lazy_static;
 
-use cached::SizedCache;
-
-cached!{FIB: SizedCache = SizedCache::with_capacity(50); &gt;&gt;
-fn fib(n: u64) -&gt; u64 = {
-    if n == 0 || n == 1 { return n }
-    fib(n-1) + fib(n-2)
-}}
+/// Defines a function named `fib` that uses a cache named `FIB`
+cached!{
+    FIB;
+    fn fib(n: u64) -&gt; u64 = {
+        if n == 0 || n == 1 { return n }
+        fib(n-1) + fib(n-2)
+    }
+}
 # pub fn main() { }
 ```
 
 
-2.) Use an explicitly specified cache-type, but let the macro instantiate it.
-    The cache-type is expected to have a `new` method that takes no arguments.
+2.) Using the full syntax requires specifying the full cache type and providing
+    an instance of the cache to use. Note that the cache&#39;s key-type is a tuple
+    of the function argument types. If you would like fine grained control over
+    the key, you can use the `cached_key!` macro.
+    The following example uses a `SizedCache` (LRU):
 
+```rust,no_run
+#[macro_use] extern crate cached;
+#[macro_use] extern crate lazy_static;
+
+use std::thread::sleep;
+use std::time::Duration;
+use cached::SizedCache;
+
+/// Defines a function `compute` that uses an LRU cache named `COMPUTE` which has a
+/// size limit of 50 items. The `cached!` macro will implicitly combine
+/// the function arguments into a tuple to be used as the cache key.
+cached!{
+    COMPUTE: SizedCache&lt;(u64, u64), u64&gt; = SizedCache::with_size(50);
+    fn compute(a: u64, b: u64) -&gt; u64 = {
+        sleep(Duration::new(2, 0));
+        return a * b;
+    }
+}
+# pub fn main() { }
+```
+
+
+3.) The `cached_key` macro functions identically, but allows you to define the
+    cache key as an expression.
+
+```rust,no_run
+#[macro_use] extern crate cached;
+#[macro_use] extern crate lazy_static;
+
+use std::thread::sleep;
+use std::time::Duration;
+use cached::SizedCache;
+
+/// Defines a function named `length` that uses an LRU cache named `LENGTH`.
+/// The `Key = ` expression is used to explicitly define the value that
+/// should be used as the cache key. Here the borrowed arguments are converted
+/// to an owned string that can be stored in the global function cache.
+cached_key!{
+    LENGTH: SizedCache&lt;String, usize&gt; = SizedCache::with_size(50);
+    Key = { format!(&quot;{}{}&quot;, a, b) };
+    fn length(a: &amp;str, b: &amp;str) -&gt; usize = {
+        let size = a.len() + b.len();
+        sleep(Duration::new(size as u64, 0));
+        size
+    }
+}
+# pub fn main() { }
+```
+
+4.) The `cached_result` and `cached_key_result` macros function similarly to `cached`
+    and `cached_key` respectively but the cached function needs to return `Result`
+    (or some type alias like `io::Result`). If the function returns `Ok(val)` then `val`
+    is cached, but errors are not. Note that only the success type needs to implement
+    `Clone`, _not_ the error type. When using `cached_result` and `cached_key_result`,
+    the cache type cannot be derived and must always be explicitly specified.
 
 ```rust,no_run
 #[macro_use] extern crate cached;
@@ -178,74 +398,117 @@ fn fib(n: u64) -&gt; u64 = {
 
 use cached::UnboundCache;
 
-cached!{FIB: UnboundCache &gt;&gt;
-fn fib(n: u64) -&gt; u64 = {
-    if n == 0 || n == 1 { return n }
-    fib(n-1) + fib(n-2)
-}}
+/// Cache the successes of a function.
+/// To use `cached_key_result` add a key function as in `cached_key`.
+cached_result!{
+   MULT: UnboundCache&lt;(u64, u64), u64&gt; = UnboundCache::new(); // Type must always be specified
+   fn mult(a: u64, b: u64) -&gt; Result&lt;u64, ()&gt; = {
+        if a == 0 || b == 0 {
+            return Err(());
+        } else {
+            return Ok(a * b);
+        }
+   }
+}
 # pub fn main() { }
 ```
 
 
-3.) Use the default unbounded cache.
+## Syntax
 
-
-```rust,no_run
-#[macro_use] extern crate cached;
-#[macro_use] extern crate lazy_static;
-
-cached!{FIB &gt;&gt;
-fn fib(n: u64) -&gt; u64 = {
-    if n == 0 || n == 1 { return n }
-    fib(n-1) + fib(n-2)
-}}
-# pub fn main() { }
-```
-
-
-# Cache Types
-
-Several caches are available in this crate:
-
-- `cached::UnboundCache`
-- `cached::SizedCache`
-- `cached::TimedCache`
-
-Any custom cache that implements `cached::Cached` can be used in place of the built-ins.
-
-# Syntax:
-
-The complete macro syntax is:
+The common macro syntax is:
 
 
 ```rust,ignore
-cached!{CACHE_NAME: CacheType = CacheType::constructor(arg); &gt;&gt;
-fn func_name(arg1: arg_type, arg2: arg_type) -&gt; return_type = {
-    // do stuff like normal
-    return_type
-}}
+cached_key!{
+    CACHE_NAME: CacheType = CacheInstance;
+    Key = KeyExpression;
+    fn func_name(arg1: arg_type, arg2: arg_type) -&gt; return_type = {
+        // do stuff like normal
+        return_type
+    }
+}
 ```
 
 Where:
 
 - `CACHE_NAME` is the unique name used to hold a `static ref` to the cache
-- `CacheType` is the struct type to use for the cache (Note, this cannot be namespaced, e.g.
-  `cached::SizedCache` will not be accepted by the macro. `SizedCache` must be imported and passed
-   directly)
-- `CacheType::constructor(arg)` is any expression that yields an instance of `CacheType` to be used
-  as the cache-store, followed by `; &gt;&gt;`
+- `CacheType` is the full type of the cache
+- `CacheInstance` is any expression that yields an instance of `CacheType` to be used
+  as the cache-store, followed by `;`
+- When using the `cached_key!` macro, the &quot;Key&quot; line must be specified. This line must start with
+  the literal tokens `Key = `, followed by an expression that evaluates to the key, followed by `;`
 - `fn func_name(arg1: arg_type) -&gt; return_type` is the same form as a regular function signature, with the exception
   that functions with no return value must be explicitly stated (e.g. `fn func_name(arg: arg_type) -&gt; ()`)
 - The expression following `=` is the function body assigned to `func_name`. Note, the function
   body can make recursive calls to its cached-self (`func_name`).
 
 
+# Fine grained control using `cached_control!`
+
+The `cached_control!` macro allows you to provide expressions that get plugged into key areas
+of the memoized function. While the `cached` and `cached_result` variants are adequate for most
+scenarios, it can be useful to have the ability to customize the macro&#39;s functionality.
+
+```rust,no_run
+#[macro_use] extern crate cached;
+#[macro_use] extern crate lazy_static;
+
+use cached::UnboundCache;
+
+/// The following usage plugs in expressions to make the macro behave like
+/// the `cached_result!` macro.
+cached_control!{
+    CACHE: UnboundCache&lt;String, String&gt; = UnboundCache::new();
+
+    // Use an owned copy of the argument `input` as the cache key
+    Key = { input.to_owned() };
+
+    // If a cached value exists, it will bind to `cached_val` and
+    // a `Result` will be returned containing a copy of the cached
+    // evaluated body. This will return before the function body
+    // is executed.
+    PostGet(cached_val) = { return Ok(cached_val.clone()) };
+
+    // The result of executing the function body will be bound to
+    // `body_result`. In this case, the function body returns a `Result`.
+    // We match on the `Result`, returning an early `Err` if the function errored.
+    // Otherwise, we pass on the function&#39;s result to be cached.
+    PostExec(body_result) = {
+        match body_result {
+            Ok(v) =&gt; v,
+            Err(e) =&gt; return Err(e),
+        }
+    };
+
+    // When inserting the value into the cache we bind
+    // the to-be-set-value to `set_value` and give back a copy
+    // of it to be inserted into the cache
+    Set(set_value) = { set_value.clone() };
+
+    // Before returning, print the value that will be returned
+    Return(return_value) = {
+        println!(&quot;{}&quot;, return_value);
+        Ok(return_value)
+    };
+
+    fn can_fail(input: &amp;str) -&gt; Result&lt;String, String&gt; = {
+        let len = input.len();
+        if len &lt; 3 { Ok(format!(&quot;{}-{}&quot;, input, len)) }
+        else { Err(&quot;too big&quot;.to_string()) }
+    }
+}
+# pub fn main() {}
+```
+
 */</span>
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">macros</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">stores</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stores</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stores</span>::{
+    <span class="ident">UnboundCache</span>, <span class="ident">SizedCache</span>, <span class="ident">TimedCache</span>,
+};
 
 
 <span class="doccomment">/// Cache operations</span>
@@ -271,7 +534,6 @@ Where:
     <span class="doccomment">/// Return the lifespan of cached values (time to eviction)</span>
     <span class="kw">fn</span> <span class="ident">cache_lifespan</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> { <span class="prelude-val">None</span> }
 }
-
 
 </pre>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "cached";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

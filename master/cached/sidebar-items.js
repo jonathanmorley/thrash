@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["cached",""]],"mod":[["macros","Macro for defining functions that wrap a static-ref cache object."],["stores","Implementation of various caches"]],"trait":[["Cached","Cache operations"]]});
+initSidebarItems({"macro":[["cached",""],["cached_control",""],["cached_key",""],["cached_key_result",""],["cached_result",""]],"mod":[["macros","Macro for defining functions that wrap a static-ref cache object."],["stores","Implementation of various caches"]],"trait":[["Cached","Cache operations"]]});

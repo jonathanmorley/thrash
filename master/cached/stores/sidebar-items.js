@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["SizedCache","Least Recently Used / `Sized` Cache - Stores up to a specified sized before beginning   to evict the least recently used keys"],["TimedCache","Cache store bound by time - Values are timestamped when inserted and are   expired on attempted retrieval."],["UnboundCache","Default unbounded cache"]]});
+initSidebarItems({"struct":[["SizedCache","Least Recently Used / `Sized` Cache"],["TimedCache","Cache store bound by time"],["UnboundCache","Default unbounded cache"]]});
