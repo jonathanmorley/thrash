@@ -2,20 +2,22 @@
 name = "thrash"
 version = "0.1.0"
 authors = ["Morley, Jonathan <morley.jonathan@gmail.com>"]
+description = "Atlassian Bitbucket Server client"
+documentation = "https://jonathanmorley.github.io/thrash"
+repository = "https://github.com/jonathanmorley/thrash"
 license = "Apache-2.0"
 
 [dependencies]
 serde_json = "1"
-uuid = "0.5"
-reqwest = "0.9.2"
-failure = "*"
-serde = "*"
-serde_derive = "*"
-cached = "0.4.3"
-url = "1.6.0"
-itertools = "0.6.2"
+reqwest = "0.9"
+failure = "0.1"
+serde = "1"
+serde_derive = "1"
+cached = "0.6"
+url = "1"
+itertools = "0.7"
 log = "0.4"
-percent-encoding = "1.0.1"
+percent-encoding = "1"
 
 [dev-dependencies]
-mockito = "*"
+mockito = "0.13"
