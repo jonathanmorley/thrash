@@ -1,6 +1,6 @@
 [package]
 name = "thrash"
-version = "0.1.0"
+version = "0.1.1-alpha.0"
 authors = ["Morley, Jonathan <morley.jonathan@gmail.com>"]
 description = "Atlassian Bitbucket Server client"
 documentation = "https://jonathanmorley.github.io/thrash"
