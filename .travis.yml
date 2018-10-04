@@ -2,15 +2,24 @@ sudo: required
 language: rust
 cache: cargo
 
-# Dependencies of kcov, used by coverage
+env:
+  global:
+    # GH_TOKEN
+    - secure: VB0Q3V7XBN/B7lVs/0V1Nl5Vnngcgktq8DezPJ6yq5TSrkObSc6BOyWm9FKZOwKVNcaCEpjR0SE/5L3pY7AQrdWDAPgoNLM3HIL2CQUMT9TNf535X8taCxxByJK8PQhywnKzy4h627WGLi1Badr46gKKAXyCk51tynD5/zF5IxjjU0bkIJE4wp71qG4OmAS7gW10xij2OVutpMrJBcPUsIQbgdyLS+NJ75Gp6meIsvVTe/9OzzTYBSBQ54EItwPQz3oifgBTDJClUX2fSBZU2RovhEaysVtKoO4aphDnCPAcvhtSq5/5cJ2xDowCjBYZgvdqMIZYZQFuwv9ScFpMJUOXMdK5cAq/LNWWkd/fs6GkTOfQZ20Br9ySL/27UWoPFyRMDT90JshtSx24BosxzMvSzzf1v7HSUSfa/WlYjkI+c+iMenbEPao7k528+VrnGSnx33NUUwRG89p/ptBTmhCF/VIvpwSoHCrPPPYZxf+LWOnRbmxAHURMu48Ghj4pOxWDyai38okwEIPcDvXzVokzzAoJ3rPK0mHeVN51DXrniU/eZ/9uonNky1g5YkW1aofETYyEau4lxWy+GcuYT0t8KlteE4aJdwpgdJMJubrPRjO1GTUWtEoJR7vzNX5YRyLLKjGZAHhsMeezQoFNcWr2H8eaETNuLJfXFAIE0jo=
+    # CARGO_TOKEN
+    - secure: Z8Ni3xQ2+WtvoQiaG+DSyH6+Ol3NUq71QH3gPhH8m7bbQfI1l9PA859iFND/EQyqbM4BavRMo2yWjccr7pTCvcSuF1Lv3KUCn8B/R4cci9CH2gmG2El0xtS1GdqGuMxhUsnCgRGl5Dlg09dr1DaGIXIKgtaDFf+7mSbNkmHTsd3SGVcyHMUCymECuUKa/eZ8GRJtQHfVySazs67jIv9PO+gYeG6oFZ+WKN0V2LusuFgguxHJSP5W+slBD9NAyPPv8+wiO6kvidwRSr+Ly6GjnJhvOG1eeg1ecq+zdt/1FbsrRNR52p0XG6eYHZN78TNJl7p8fQLyQWpexozERPj7+wLe1yO5SBPoN7NnOuNFO3x3WlGiFln1QnSMOdWIowiZT3HG+j+Xcvm4GRfx+/dSYCuGAZuDdriokPgBzwe99/TKG3ZpVQFqZ3NNGqz0xACQYRbVrEUkRQyHz95dUzyTRMoKMVlWVPnSgJJC7RiQ5V3iZK0dtTtgVZ1u0zwHAmLPRV3D1EwMu3NXlUI86uQXOAweLenNkVOK+Gj4nvm/I7Q8IWo3NluYBtufUIGRpoHOnMMp/x3oujus2yMAX0R/v1pNigL0TW0OV1f2zDJtYlwHaVFvZX+XtDK75smre/1RVTVdumEePbCcvLQmo8+r/CkMjaytqPd7aj3gUaI1lyY=
+
 addons:
   apt:
     packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-      - binutils-dev
-      - cmake # also required for cargo-update
+      - libcurl4-openssl-dev # cargo-travis
+      - libelf-dev # cargo-travis
+      - libdw-dev # cargo-travis
+      - binutils-dev # cargo-travis
+      - cmake # cargo-travis, cargo-update, semantic-rs
+      - libssl-dev # semantic-rs
+      - pkg-config # semantic-rs
+      - zlib1g-dev # semantic-rs
     sources:
       - kalakris-cmake
 
@@ -33,6 +42,7 @@ before_script:
   - rustup component add clippy-preview
   - cargo install cargo-update || echo "cargo-update already installed"
   - cargo install cargo-travis || echo "cargo-travis already installed"
+  - cargo install semantic-rs || echo "semantic-rs already installed"
   - cargo install-update -a # update outdated cached binaries
 
 script:
@@ -47,6 +57,13 @@ after_success:
   - cargo coveralls
   # upload documentation to github.io (gh-pages branch)
   - cargo doc-upload
+
+deploy:
+  provider: script
+  script: semantic-rs
+  on:
+    branch: master
+    rust: stable
 
 branches:
   only:
