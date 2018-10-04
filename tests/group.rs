@@ -1,6 +1,6 @@
-extern crate bitbucket;
 extern crate failure;
 extern crate mockito;
+extern crate thrash;
 
 use failure::Error;
 use mockito::{mock, Matcher};
@@ -31,7 +31,7 @@ fn groups_admin() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.groups_admin()?.len(), 2);
 
@@ -58,7 +58,7 @@ fn groups() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.groups()?.len(), 2);
 

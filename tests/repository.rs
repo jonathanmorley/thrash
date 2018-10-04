@@ -1,6 +1,6 @@
-extern crate bitbucket;
 extern crate failure;
 extern crate mockito;
+extern crate thrash;
 
 use failure::Error;
 use mockito::{mock, Matcher};
@@ -109,7 +109,7 @@ fn repositories() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.repositories("FOO")?.len(), 2);
 
@@ -169,7 +169,7 @@ fn repository() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.repository("FOO", "foo-repo-1")?.name(), "foo-repo-1");
 
@@ -196,7 +196,7 @@ fn repository_files() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(
         client.repository_files("FOO", "foo-repo-1")?,
@@ -231,7 +231,7 @@ fn repository_file_contents() -> Result<(), Error> {
         }"#,
     ).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(
         client.repository_file_contents("FOO", "foo-repo-1", "foo")?,

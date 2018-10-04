@@ -1,6 +1,6 @@
-extern crate bitbucket;
 extern crate failure;
 extern crate mockito;
+extern crate thrash;
 
 use failure::Error;
 use mockito::{mock, Matcher};
@@ -54,7 +54,7 @@ fn projects() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.projects()?.len(), 2);
 
@@ -87,7 +87,7 @@ fn project() -> Result<(), Error> {
         url = mockito::SERVER_URL
     )).create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project("FOO")?.name(), "Foo Project");
 

@@ -1,6 +1,6 @@
-extern crate bitbucket;
 extern crate failure;
 extern crate mockito;
+extern crate thrash;
 
 use failure::Error;
 use mockito::{mock, Matcher};
@@ -37,7 +37,7 @@ fn project_default_permission_none() -> Result<(), Error> {
     .with_body(r#"{ "permitted": false }"#)
     .create();
 
-    let mut client = bitbucket::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project_default_permission("FOO")?, "PROJECT_NONE");
 
