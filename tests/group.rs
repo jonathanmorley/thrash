@@ -10,8 +10,7 @@ fn groups_admin() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/admin/groups(\?.+)?$".to_string()),
-    )
-    .with_status(200)
+    ).with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -30,8 +29,7 @@ fn groups_admin() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    )
-    .create();
+    ).create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -45,8 +43,7 @@ fn groups() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/groups(\?.+)?$".to_string()),
-    )
-    .with_status(200)
+    ).with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -59,8 +56,7 @@ fn groups() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    )
-    .create();
+    ).create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
