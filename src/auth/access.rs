@@ -37,14 +37,14 @@ impl<P> GroupAccess<P> {
 }
 
 impl Client {
-    pub fn group_access(&mut self) -> Result<Vec<GroupAccess<GlobalPermission>>, Error> {
+    pub fn group_access(&self) -> Result<Vec<GroupAccess<GlobalPermission>>, Error> {
         let url = "rest/api/1.0/admin/permissions/groups";
 
         self.get_paged(&url)
     }
 
     pub fn project_group_access(
-        &mut self,
+        &self,
         project_key: &str,
     ) -> Result<Vec<GroupAccess<ProjectPermission>>, Error> {
         let url = format!("rest/api/1.0/projects/{}/permissions/groups", project_key);
@@ -53,7 +53,7 @@ impl Client {
     }
 
     pub fn set_project_group_access(
-        &mut self,
+        &self,
         project_key: &str,
         groups: Vec<GroupAccess<ProjectPermission>>,
     ) -> Result<(), Error> {
@@ -85,7 +85,7 @@ impl Client {
     }
 
     pub fn repository_group_access(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Vec<GroupAccess<RepositoryPermission>>, Error> {
@@ -98,7 +98,7 @@ impl Client {
     }
 
     pub fn set_repository_group_access(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
         groups: Vec<GroupAccess<RepositoryPermission>>,
@@ -162,7 +162,7 @@ impl<P> UserAccess<P> {
 
 impl Client {
     pub fn project_user_access(
-        &mut self,
+        &self,
         project_key: &str,
     ) -> Result<Vec<UserAccess<ProjectPermission>>, Error> {
         let url = format!("rest/api/1.0/projects/{}/permissions/users", project_key);

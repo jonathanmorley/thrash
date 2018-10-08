@@ -21,13 +21,13 @@ impl Group {
 }
 
 impl Client {
-    pub fn groups_admin(&mut self) -> Result<Vec<Group>, Error> {
+    pub fn groups_admin(&self) -> Result<Vec<Group>, Error> {
         let url = "rest/api/1.0/admin/groups";
 
         self.get_paged(&url)
     }
 
-    pub fn groups(&mut self) -> Result<Vec<String>, Error> {
+    pub fn groups(&self) -> Result<Vec<String>, Error> {
         let url = "rest/api/1.0/groups";
 
         self.get_paged(&url)

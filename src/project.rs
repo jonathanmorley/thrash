@@ -29,13 +29,13 @@ pub struct ProjectRef {
 }
 
 impl Client {
-    pub fn projects(&mut self) -> Result<Vec<Project>, Error> {
+    pub fn projects(&self) -> Result<Vec<Project>, Error> {
         let url = "rest/api/1.0/projects";
 
         self.get_paged(&url)
     }
 
-    pub fn project(&mut self, project_key: &str) -> Result<Project, Error> {
+    pub fn project(&self, project_key: &str) -> Result<Project, Error> {
         let url = format!("rest/api/1.0/projects/{}", project_key);
 
         self.get(&url)

@@ -25,14 +25,14 @@ impl fmt::Display for Repository {
 }
 
 impl Client {
-    pub fn repositories(&mut self, project_key: &str) -> Result<Vec<Repository>, Error> {
+    pub fn repositories(&self, project_key: &str) -> Result<Vec<Repository>, Error> {
         let url = format!("rest/api/1.0/projects/{}/repos", project_key);
 
         self.get_paged(&url)
     }
 
     pub fn repository(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Repository, Error> {
@@ -45,7 +45,7 @@ impl Client {
     }
 
     pub fn repository_files(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Vec<PathBuf>, Error> {
@@ -62,7 +62,7 @@ impl Client {
     }
 
     pub fn repository_file_contents(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
         path: &str,
@@ -79,5 +79,9 @@ impl Client {
 impl Repository {
     pub fn name(&self) -> &str {
         &self.name
+    }
+
+    pub fn slug(&self) -> &str {
+        &self.slug
     }
 }

@@ -10,7 +10,8 @@ fn projects() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -52,9 +53,10 @@ fn projects() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.projects()?.len(), 2);
 
@@ -66,7 +68,8 @@ fn project() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -85,9 +88,10 @@ fn project() -> Result<(), Error> {
             }}
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project("FOO")?.name(), "Foo Project");
 

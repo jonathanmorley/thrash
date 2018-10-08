@@ -11,7 +11,8 @@ fn repositories() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO/repos(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -107,9 +108,10 @@ fn repositories() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.repositories("FOO")?.len(), 2);
 
@@ -121,7 +123,8 @@ fn repository() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO/repos/foo-repo-1(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -167,9 +170,10 @@ fn repository() -> Result<(), Error> {
             }}
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.repository("FOO", "foo-repo-1")?.name(), "foo-repo-1");
 
@@ -181,7 +185,8 @@ fn repository_files() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO/repos/foo-repo-1/files(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -194,9 +199,10 @@ fn repository_files() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    ).create();
+    )
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(
         client.repository_files("FOO", "foo-repo-1")?,
@@ -213,7 +219,8 @@ fn repository_file_contents() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/repos/foo-repo-1/browse/foo(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -229,9 +236,10 @@ fn repository_file_contents() -> Result<(), Error> {
             "size": 2,
             "isLastPage": true
         }"#,
-    ).create();
+    )
+    .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(
         client.repository_file_contents("FOO", "foo-repo-1", "foo")?,

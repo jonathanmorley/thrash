@@ -12,7 +12,8 @@ fn project_default_permission_none() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/permissions/PROJECT_READ/all(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(r#"{ "permitted": false }"#)
     .create();
@@ -22,7 +23,8 @@ fn project_default_permission_none() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/permissions/PROJECT_WRITE/all(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(r#"{ "permitted": false }"#)
     .create();
@@ -32,12 +34,13 @@ fn project_default_permission_none() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/permissions/PROJECT_ADMIN/all(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(r#"{ "permitted": false }"#)
     .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project_default_permission("FOO")?, "PROJECT_NONE");
 

@@ -45,7 +45,7 @@ impl fmt::Display for DefaultReviewerGroup {
 
 impl Client {
     pub fn default_reviewers(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Vec<DefaultReviewerGroup>, Error> {
