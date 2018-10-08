@@ -171,7 +171,7 @@ impl Client {
     }
 
     pub fn set_project_user_access(
-        &mut self,
+        &self,
         project_key: &str,
         users: Vec<UserAccess<ProjectPermission>>,
     ) -> Result<(), Error> {
@@ -203,7 +203,7 @@ impl Client {
     }
 
     pub fn repository_user_access(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Vec<UserAccess<RepositoryPermission>>, Error> {
@@ -216,7 +216,7 @@ impl Client {
     }
 
     pub fn set_repository_user_access(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
         users: Vec<UserAccess<RepositoryPermission>>,
@@ -281,17 +281,14 @@ impl fmt::Display for ProjectKeyAccess {
 }
 
 impl Client {
-    pub fn project_key_accesses(
-        &mut self,
-        project_key: &str,
-    ) -> Result<Vec<ProjectKeyAccess>, Error> {
+    pub fn project_key_accesses(&self, project_key: &str) -> Result<Vec<ProjectKeyAccess>, Error> {
         let url = format!("rest/keys/1.0/projects/{}/ssh", project_key);
 
         self.get_paged(&url)
     }
 
     pub fn repository_key_accesses(
-        &mut self,
+        &self,
         project_key: &str,
         repository_slug: &str,
     ) -> Result<Vec<RepositoryKeyAccess>, Error> {

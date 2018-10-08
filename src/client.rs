@@ -1,5 +1,3 @@
-use cached::stores::TimedCache;
-use cached::Cached;
 use failure::Error;
 use percent_encoding::{utf8_percent_encode, SIMPLE_ENCODE_SET};
 use reqwest;

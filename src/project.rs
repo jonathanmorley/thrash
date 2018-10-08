@@ -2,7 +2,7 @@ use client::Client;
 use failure::Error;
 use std::fmt;
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Project {
     key: String,
@@ -22,7 +22,7 @@ impl fmt::Display for Project {
     }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectRef {
     pub key: String,

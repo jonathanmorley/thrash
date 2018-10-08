@@ -4,7 +4,7 @@ use project::ProjectRef;
 use std::fmt;
 use std::path::PathBuf;
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Repository {
     slug: String,
