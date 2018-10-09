@@ -8,9 +8,9 @@ use std::path::PathBuf;
 
 #[derive(Clone, Debug)]
 pub struct FileLocation {
-    project: Project,
-    repository: Repository,
-    path: PathBuf,
+    pub project: Project,
+    pub repository: Repository,
+    pub path: PathBuf,
 }
 
 impl Client {
