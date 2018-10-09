@@ -45,13 +45,11 @@ impl Client {
                                     repository: repository.1.clone(),
                                     path,
                                 })
-                            })
-                            .collect(),
+                            }).collect(),
                         Err(e) => vec![Err(e)],
                     }
                 }
                 Err(e) => vec![Err(e)],
-            })
-            .collect()
+            }).collect()
     }
 }
