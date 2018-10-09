@@ -37,7 +37,7 @@ fn project_default_permission_none() -> Result<(), Error> {
     .with_body(r#"{ "permitted": false }"#)
     .create();
 
-    let mut client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
+    let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
     assert_eq!(client.project_default_permission("FOO")?, "PROJECT_NONE");
 

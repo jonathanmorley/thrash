@@ -41,7 +41,7 @@ impl fmt::Display for ProjectPermission {
 }
 
 impl Client {
-    pub fn project_default_permission(&mut self, project_key: &str) -> Result<String, Error> {
+    pub fn project_default_permission(&self, project_key: &str) -> Result<String, Error> {
         let permissions = vec!["PROJECT_READ", "PROJECT_WRITE", "PROJECT_ADMIN"];
 
         for permission in permissions {

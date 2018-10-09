@@ -1,5 +1,3 @@
-use cached::stores::TimedCache;
-use cached::Cached;
 use failure::Error;
 use percent_encoding::{utf8_percent_encode, SIMPLE_ENCODE_SET};
 use reqwest;
@@ -11,7 +9,6 @@ pub struct Client {
     client: reqwest::Client,
     base_url: String,
     auth: Authentication,
-    cache: Option<TimedCache<Url, String>>,
 }
 
 pub struct Authentication {
@@ -30,65 +27,26 @@ impl Client {
                 username: username.to_owned(),
                 password: password.to_owned(),
             },
-            cache: None,
         })
     }
 
-    pub fn with_cache(base_url: &str, username: &str, password: &str) -> Result<Client, Error> {
-        Ok(Client {
-            client: reqwest::Client::builder()
-                .danger_accept_invalid_hostnames(true)
-                .build()?,
-            base_url: base_url.to_owned(),
-            auth: Authentication {
-                username: username.to_owned(),
-                password: password.to_owned(),
-            },
-            cache: Some(TimedCache::with_lifespan(20)),
-        })
-    }
-
-    pub fn get<T>(&mut self, path: &str) -> Result<T, Error>
+    pub fn get<T>(&self, path: &str) -> Result<T, Error>
     where
         for<'de> T: Deserialize<'de>,
     {
         let url = Url::parse(&format!("{}/{}", self.base_url, path))?;
 
-        match self.cache {
-            Some(ref mut cache) => {
-                let resp = match cache.cache_get(&url) {
-                    Some(resp) => resp.to_owned(),
-                    None => {
-                        info!("GET {}", url);
-                        self.client
-                            .get(url.clone())
-                            .basic_auth(
-                                self.auth.username.clone(),
-                                Some(self.auth.password.clone()),
-                            ).send()?
-                            .error_for_status()?
-                            .text()?
-                    }
-                };
-
-                //println!("{}", resp);
-                cache.cache_set(url, resp.clone());
-                Ok(serde_json::from_str(&resp)?)
-            }
-            None => {
-                info!("GET {}", url);
-                Ok(self
-                    .client
-                    .get(url.clone())
-                    .basic_auth(self.auth.username.clone(), Some(self.auth.password.clone()))
-                    .send()?
-                    .error_for_status()?
-                    .json()?)
-            }
-        }
+        info!("GET {}", url);
+        Ok(self
+            .client
+            .get(url.clone())
+            .basic_auth(self.auth.username.clone(), Some(self.auth.password.clone()))
+            .send()?
+            .error_for_status()?
+            .json()?)
     }
 
-    pub fn get_paged<T>(&mut self, path: &str) -> Result<Vec<T>, Error>
+    pub fn get_paged<T>(&self, path: &str) -> Result<Vec<T>, Error>
     where
         for<'de> T: Deserialize<'de>,
     {
@@ -96,25 +54,25 @@ impl Client {
         let mut start = 0;
 
         loop {
-            let mut page: Page<T> = self.get(&format!("{}?start={}", path, start))?;
+            let mut page: Page<T> = self.get(&format!("{}?limit=1000&start={}", path, start))?;
             output.append(&mut page.values);
 
             if page.is_last_page {
                 break;
             } else {
-                start += page.limit
+                start += page.size
             }
         }
 
         Ok(output)
     }
 
-    pub fn get_lines_paged(&mut self, path: &str) -> Result<Vec<String>, Error> {
+    pub fn get_lines_paged(&self, path: &str) -> Result<Vec<String>, Error> {
         let mut output = Vec::new();
         let mut start = 0;
 
         loop {
-            let page: LinePage = self.get(&format!("{}?start={}", path, start))?;
+            let page: LinePage = self.get(&format!("{}?limit=1000&start={}", path, start))?;
             let mut text = page.lines.into_iter().map(|l| l.text).collect();
             output.append(&mut text);
 
@@ -128,7 +86,7 @@ impl Client {
         Ok(output)
     }
 
-    pub fn put<T>(&mut self, path: &str, value: Option<&T>) -> Result<(), Error>
+    pub fn put<T>(&self, path: &str, value: Option<&T>) -> Result<(), Error>
     where
         T: Serialize,
     {
@@ -149,7 +107,7 @@ impl Client {
         Ok(())
     }
 
-    pub fn delete(&mut self, path: &str) -> Result<(), Error> {
+    pub fn delete(&self, path: &str) -> Result<(), Error> {
         let url = Url::parse(&format!("{}{}", self.base_url, path))?;
 
         info!("DELETE {}", url);

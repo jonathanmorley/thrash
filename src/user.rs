@@ -23,17 +23,17 @@ impl fmt::Display for User {
 }
 
 impl Client {
-    pub fn users_admin(&mut self) -> Result<Vec<User>, Error> {
+    pub fn users_admin(&self) -> Result<Vec<User>, Error> {
         let url = "rest/api/1.0/admin/users";
         self.get_paged(&url)
     }
 
-    pub fn users(&mut self) -> Result<Vec<User>, Error> {
+    pub fn users(&self) -> Result<Vec<User>, Error> {
         let url = "rest/api/1.0/users";
         self.get_paged(&url)
     }
 
-    pub fn user(&mut self, user_slug: &str) -> Result<User, Error> {
+    pub fn user(&self, user_slug: &str) -> Result<User, Error> {
         let url = format!("rest/api/1.0/users/{}", user_slug);
         self.get(&url)
     }

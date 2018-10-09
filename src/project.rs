@@ -2,7 +2,7 @@ use client::Client;
 use failure::Error;
 use std::fmt;
 
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Project {
     key: String,
@@ -22,20 +22,20 @@ impl fmt::Display for Project {
     }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Clone, Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ProjectRef {
     pub key: String,
 }
 
 impl Client {
-    pub fn projects(&mut self) -> Result<Vec<Project>, Error> {
+    pub fn projects(&self) -> Result<Vec<Project>, Error> {
         let url = "rest/api/1.0/projects";
 
         self.get_paged(&url)
     }
 
-    pub fn project(&mut self, project_key: &str) -> Result<Project, Error> {
+    pub fn project(&self, project_key: &str) -> Result<Project, Error> {
         let url = format!("rest/api/1.0/projects/{}", project_key);
 
         self.get(&url)
