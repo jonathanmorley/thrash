@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["auth",""],["client",""],["group",""],["merging",""],["project",""],["repository",""],["user",""]]});
+initSidebarItems({"mod":[["auth",""],["client",""],["file",""],["group",""],["merging",""],["project",""],["repository",""],["user",""]]});
