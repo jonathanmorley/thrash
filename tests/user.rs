@@ -10,7 +10,8 @@ fn users_admin() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/admin/users(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -62,7 +63,8 @@ fn users_admin() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -76,7 +78,8 @@ fn users() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/users(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -120,7 +123,8 @@ fn users() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -134,7 +138,8 @@ fn user() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/users/foouser(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -154,7 +159,8 @@ fn user() -> Result<(), Error> {
             }}
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
