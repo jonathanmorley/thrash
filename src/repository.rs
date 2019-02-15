@@ -7,15 +7,15 @@ use std::path::PathBuf;
 #[derive(Clone, Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Repository {
-    slug: String,
-    id: u64,
-    name: String,
-    scm_id: String,
-    state: String,
-    status_message: String,
-    forkable: bool,
-    project: ProjectRef,
-    public: bool,
+    pub slug: String,
+    pub id: u64,
+    pub name: String,
+    pub scm_id: String,
+    pub state: String,
+    pub status_message: String,
+    pub forkable: bool,
+    pub project: ProjectRef,
+    pub public: bool,
 }
 
 impl fmt::Display for Repository {
