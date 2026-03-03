@@ -10,7 +10,8 @@ fn group_access() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/admin/permissions/groups(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -33,7 +34,8 @@ fn group_access() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    ).create();
+    )
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -47,7 +49,8 @@ fn project_group_access() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO/permissions/groups(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -70,7 +73,8 @@ fn project_group_access() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    ).create();
+    )
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -86,7 +90,8 @@ fn repository_group_access() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/repos/foo-repo-1/permissions/groups(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(
         r#"{
@@ -109,7 +114,8 @@ fn repository_group_access() -> Result<(), Error> {
             ],
             "start": 0
         }"#,
-    ).create();
+    )
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -126,7 +132,8 @@ fn project_user_access() -> Result<(), Error> {
     let _m = mock(
         "GET",
         Matcher::Regex(r"^/rest/api/1.0/projects/FOO/permissions/users(\?.+)?$".to_string()),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -157,7 +164,8 @@ fn project_user_access() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
@@ -173,7 +181,8 @@ fn repository_user_access() -> Result<(), Error> {
         Matcher::Regex(
             r"^/rest/api/1.0/projects/FOO/repos/foo-repo-1/permissions/users(\?.+)?$".to_string(),
         ),
-    ).with_status(200)
+    )
+    .with_status(200)
     .with_header("content-type", "application/json")
     .with_body(format!(
         r#"{{
@@ -204,7 +213,8 @@ fn repository_user_access() -> Result<(), Error> {
             "start": 0
         }}"#,
         url = mockito::SERVER_URL
-    )).create();
+    ))
+    .create();
 
     let client = thrash::client::Client::new(mockito::SERVER_URL, "user", "password")?;
 
